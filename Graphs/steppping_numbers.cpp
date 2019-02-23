@@ -13,7 +13,7 @@ all stepping numbers are 10 , 12
 Return the numbers in sorted order.
 */
 
-/* Solution 1: Non graph */
+/* Solution 1: Non graph solution*/
 vector<int> Solution::stepnum(int A, int B) {
     vector<int> result;
     int prev = -11;
