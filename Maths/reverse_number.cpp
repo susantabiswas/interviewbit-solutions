@@ -14,6 +14,8 @@ int Solution::reverse(int num) {
     long long rev_num = 0;
     
     while(num) {
+        if(rev_num > (numeric_limits<int>::max() / 10 + num % 10) )
+            return 0;
         rev_num = rev_num * 10 + num % 10;
         num = num / 10;
     }
@@ -21,11 +23,7 @@ int Solution::reverse(int num) {
     // put sign
     if(!positive)
         rev_num *= -1;
-    // check overflow/underflow
-    if(rev_num < numeric_limits<int>::min())
-        return 0;
-    else if(rev_num > numeric_limits<int>::max())
-        return 0;
-    else
-        return rev_num;
+    
+    return rev_num;
 }
+
