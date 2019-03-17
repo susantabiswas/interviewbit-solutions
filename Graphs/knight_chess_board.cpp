@@ -31,7 +31,7 @@ bool doBFS(int n, int m, int r1, int c1, int r2, int c2, int& min_dist){
         curr = q.front();
         q.pop();
         
-       /if(curr.x == r2-1 && curr.y == c2-1){
+       if(curr.x == r2-1 && curr.y == c2-1){
             min_dist = g[r2-1][c2-1];
             return true;
         }
