@@ -46,7 +46,7 @@ int Solution::t2Sum(TreeNode* root, int k) {
         // current sum
         int sum = l->val + r->val;
         
-        // if nodes found on left and right side
+        // if no nodes found on left and right side
         if(l == r)
             return 0;
         // sum found
