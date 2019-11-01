@@ -32,7 +32,7 @@ void findRange(const vector<int>& arr, int l, int h, int& k, vector<int>& range,
 
 vector<int> Solution::searchRange(const vector<int> &arr, int k) {
     vector<int> range = {-1, -1};
-    // we do two binary searches, each focusing on finding on finding the 
+    // we do two binary searches, each focusing on finding the 
     // extreme end position of target value
     // So we do searches for lower and upper bounds.
     findRange(arr, 0, arr.size() - 1, k, range, true);
