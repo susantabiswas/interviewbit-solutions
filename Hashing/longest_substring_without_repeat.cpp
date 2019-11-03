@@ -3,6 +3,8 @@
     https://www.interviewbit.com/problems/longest-substring-without-repeat/
 */
 
+/*
+Solution 1    
 int Solution::lengthOfLongestSubstring(string str) {
     unordered_map<char, int> h;
     int i = 0, j = 0;
@@ -22,7 +24,7 @@ int Solution::lengthOfLongestSubstring(string str) {
                 max_length = curr_length;
             }
             
-            h.emplace(str[i], 1);
+            h.emplace(str[i], i);
             ++i;
         }   
         // now shrink window till first occurence of str[i] is removed
@@ -32,6 +34,37 @@ int Solution::lengthOfLongestSubstring(string str) {
             --curr_length;
             ++j;
         }
+   }
+    
+    return max_length;
+}
+*/
+
+// Solution 2
+int Solution::lengthOfLongestSubstring(string str) {
+    unordered_map<char, int> h;
+    int max_length = 0;
+    // this indicates that current substring has all distinct chars 
+    bool cond = true;
+    
+    int i = 0, j = 0;
+    while(i < str.size()) {
+        // expand the window, till it becomes invalid
+        if(cond) {
+            ++h[str[i]];
+            // check if the condition is still valid or not
+            cond = h[str[i]] > 1 ? false : true;
+            ++i;
+        }
+        
+        // shrink the window till it becomes valid again 
+        while(!cond) {
+            --h[str[j]];
+            if(h[str[j]] == 1)
+                cond = true;
+            ++j;
+        }
+        max_length = max(max_length, i - j);
     }
     
     return max_length;
