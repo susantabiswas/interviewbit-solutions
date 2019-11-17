@@ -6,6 +6,45 @@
 */
 
 /*
+    SOLUTION 1
+    A brace pair is redundant if it has one or zero operand inside.
+    So we start traversing from left and push only opening brace
+    or any operator, since the input will be a valid expression
+    so any operator encountered will have valid operands also, which
+    makes that brace pair to be non redundant.
+    If we get a closing brace we check if the stack top is any operator,
+    if it is an operator that means that brace pair is not redundant, otherwise
+    if opening brace is found as the stack top then it is redundant.
+*/
+int Solution::braces(string str) {
+    stack<char> s;
+    
+    for(const char& c: str) {
+        // when a closing brace is encountered,
+        // a brace pair will be redundant if there
+        // is one or zero operand inside it.
+        // Since we push only operators, so if an operator
+        // is encountered that means there are at least two operands
+        if(c == ')') {
+            if(s.top() == '(')
+                return 1;
+            while(!s.empty() && s.top() != '(')
+                s.pop();
+            // pop opening brace
+            s.pop();
+        }
+        // push the opening brace or any operator
+        else if(c == '(' || c == '+' || c == '-'
+                || c == '*' || c == '/')
+            s.emplace(c);
+    }
+    
+    return 0;
+}
+
+
+/*
+    SOLUTION 2
     Braces will be redundant when, both the opening and closing brace enclose another open-close pair.
     Also within the braces should lie atleast one operator, otherwise if only tokens are there, it is reduntant to
     have braces.
