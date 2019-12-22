@@ -4,6 +4,7 @@
     https://www.interviewbit.com/problems/noble-integer/
 */
 
+// Solution 1 
 int Solution::solve(vector<int> &arr) {
     sort(arr.begin(), arr.end());
     
@@ -25,5 +26,22 @@ int Solution::solve(vector<int> &arr) {
             --i;
     }
     
+    return -1;
+}
+
+// Solution 2
+int Solution::solve(vector<int> &arr) {
+    sort(arr.begin(), arr.end());
+    
+    for(int i = 0; i < arr.size(); i++) {
+        // skip duplicates and go to last instance of duplicate
+        // so that it can be said for sure that remaining elements
+        // are greater
+        while((i+1) < arr.size() && arr[i+1] == arr[i])
+            ++i;
+        if((arr[i]) == (arr.size() - (i+1))) {
+            return 1;
+        }
+    }
     return -1;
 }
