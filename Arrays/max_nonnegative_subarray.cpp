@@ -4,6 +4,45 @@
     TC: O(n)
 */
 
+// Solution1 
+vector<int> Solution::maxset(vector<int> &arr) {
+    long long max_sum = -1;
+    long long curr = INT_MIN;
+    int start = -1, end = -1, max_start = -1, max_end = -1;
+    
+    for(int i = 0; i < arr.size(); i++) {
+        // if this the first +ve element in the current subarray
+        if(curr < 0 && arr[i] >= 0) {
+            start = i, end = i;
+            curr = arr[i];
+        }
+        // if current number is +ve then add to current sum
+        else if(arr[i] >= 0) {
+            curr += arr[i];
+            end = i;    // update end position
+        }
+        else if(arr[i] < 0) {
+            // when current number is -ve, we reset the current sum
+            curr = INT_MIN;
+        }
+        // update max subarray 
+        if(curr >= max_sum) {
+            // update subarray if currrent sum is more or
+            // the subarray length is more and sum is same
+            if(curr > max_sum ||
+              (curr == max_sum && (end - start) > (max_end - max_start)))
+                max_start = start, max_end = end;
+        
+            max_sum = curr;
+        }
+    }
+   
+    return max_sum < 0 ? vector<int>{} : 
+                        vector<int>{arr.begin() + max_start, arr.begin() + max_end + 1};
+}
+
+
+// Solution 2
 vector<int> Solution::maxset(vector<int> &arr) {
     long long max_sum = 0, curr_sum = 0;
     vector<int> max_subarray;
