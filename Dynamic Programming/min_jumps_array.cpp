@@ -66,6 +66,39 @@ int greedySolution(vector<int>& arr) {
     return -1;
 }
 
+// Simpler greedy solution
+int Solution::jump(vector<int> &arr) {
+    if(arr.empty() || arr.front() == 0)
+        return arr.size() > 1 ? -1 : 0;
+    int jumps = 1;
+    // max index that can be reached
+    int farthest = arr[0];
+    // current max reach using the jumps from positions
+    // befoer farthest reach
+    int max_reach = 0;
+    int min_jumps = 1;
+    int i = 0;
+    
+    while(i < arr.size() && i <= farthest) {
+        // if last index can be reached
+        if(farthest >= arr.size()-1)
+            return min_jumps;
+        // check all the jumps avail between farthest index
+        while(i < arr.size() && i <= farthest) {
+            max_reach = max(max_reach, arr[i] + i);
+            ++i;    
+        }
+        // if we can't gp beyond farthest index then -1
+        if(max_reach <= farthest)
+            return -1;
+        else
+            farthest = max_reach;
+        
+        ++min_jumps;
+    }
+    return farthest >= arr.size() ? min_jumps : -1;
+}
+
 int Solution::jump(vector<int> &arr) {
     // return dpSolution(arr);
     return greedySolution(arr);
