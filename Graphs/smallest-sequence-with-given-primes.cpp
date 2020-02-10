@@ -1,7 +1,7 @@
 /*
     https://www.interviewbit.com/problems/smallest-sequence-with-given-primes/
     
-    TC: O(k * 4) ~ O(k)
+    TC: O(k * log4k) ~ O(klogk)
     
     We treat each number as a vertex. Each neighbouring vertex is formed by multiplication
     of current by any one of the primes.
