@@ -28,7 +28,32 @@ void cloneUsingDFS(UndirectedGraphNode* orig, UndirectedGraphNode* curr_clone,
     }
 }
 
-
+// BFS
+void cloneBFS(unordered_map<UndirectedGraphNode*, UndirectedGraphNode*>& visited, 
+                UndirectedGraphNode* orig, UndirectedGraphNode* clone) {
+    queue<UndirectedGraphNode*> q;
+    q.emplace(orig);
+    visited[orig] = clone;
+    
+    while(!q.empty()) {
+        UndirectedGraphNode* curr = q.front();
+        q.pop();
+        
+        // clone the neighboring edges
+        for(UndirectedGraphNode* v: curr->neighbors) {
+            // add the next node if unvisited
+            if(visited.find(v) == visited.end()) {
+                // clone neighboring node
+                UndirectedGraphNode* node = new UndirectedGraphNode(v->label);
+                // mark it visited
+                visited[v] = node;
+                q.emplace(v);
+            }
+            // clone the edge
+            visited[curr]->neighbors.emplace_back(visited[v]);
+        }
+    }
+}
 UndirectedGraphNode *Solution::cloneGraph(UndirectedGraphNode *node) {
     if(!node)
         return nullptr;
@@ -44,5 +69,7 @@ UndirectedGraphNode *Solution::cloneGraph(UndirectedGraphNode *node) {
     
     // here DFS will be used for cloning
     cloneUsingDFS(node, clone, visited);
+    // BFS
+    //cloneBFS(visited, node, clone);  
     return clone;
 }
