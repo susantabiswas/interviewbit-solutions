@@ -28,8 +28,43 @@ XXX
 
 is just one single connected black shape.
  */
+/*
+    https://www.interviewbit.com/problems/black-shapes/
+    TC: O(MN)
+*/
+// traverses the connected region using DFS
+void dfs(vector<string>& grid, int i, int j) {
+    // if out of bound or visited
+    if(i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() ||
+        grid[i][j] == 'O')
+        return;
+    
+    // mark current as unvisited by making it white
+    grid[i][j] = 'O';
+    // traverse in 4 directions
+    dfs(grid, i, j-1);
+    dfs(grid, i-1, j);
+    dfs(grid, i, j+1);
+    dfs(grid, i+1, j);
+}
 
-//TC:O(n), n: vector length
+int Solution::black(vector<string> &grid) {
+    int black_shapes = 0;
+    
+    // do DFS from unvisited black positions
+    for(int i = 0; i < grid.size(); i++)
+        for(int j = 0; j < grid[0].size(); j++)
+            // unvisited disconnected region found
+            if(grid[i][j] == 'X') {
+                ++black_shapes;
+                dfs(grid, i, j);
+            }
+                
+    return black_shapes;
+}
+
+//////////////////////////////////////////// /////////
+//TC:O(mn), 
 void DFS(vector<string>& grid, int i, int j, vector<vector<bool>>& visited){
     // make the current tile visited
     visited[i][j] = true;
