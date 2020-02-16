@@ -6,6 +6,54 @@
     If can't reach return -1
 */
 
+// Using BFS
+// TC: O(MN)
+int Solution::knight(int M, int N, int start_row, int start_col,
+                    int end_row, int end_col) {
+    queue<pair<int, int>> q;
+    q.emplace(make_pair(start_row-1, start_col-1));
+    
+    // grid to track visited positions
+    vector<vector<bool>> grid(M, vector<bool>(N, false));
+    // mark it visited
+    grid[start_row-1][start_col-1] = true;
+    
+    // valid knight moves
+    vector<pair<int, int>> moves = {   {1, -2}, {-1, -2},
+                                    {1, 2}, {-1, 2},
+                                    {-2, -1}, {-2, 1},
+                                    {2, -1}, {2, 1}
+                                };
+    
+    int level = 0;
+    int n_level = q.size();
+    while(!q.empty()) {
+        pair<int, int> curr = q.front();
+        q.pop();
+        
+        // if the destination is reached
+        if(curr.first == end_row-1 && curr.second == end_col-1)
+            return level;
+            
+        // add the different valid possible moves
+        for(const auto& move: moves) {
+            int r = curr.first + move.first, c = curr.second + move.second;
+            // if valid and unvisited
+            if(r >= 0 && r < M && c >= 0 && c < N && grid[r][c] == false)
+                q.emplace(make_pair(r, c)), grid[r][c] = true;
+        }
+        --n_level;
+        if(n_level == 0) {
+            n_level = q.size();
+            ++level;
+        }
+    }
+    return -1;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+// Another way
 // TC: O(n.m)
 struct Coordinate{
     int x, y;
