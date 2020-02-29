@@ -1,6 +1,30 @@
 /*
     https://www.interviewbit.com/problems/max-sum-without-adjacent-elements/
+    
+    The idea is to track the max sum that can be achieved till ith element.
+    Since the previous elemenet if added in the sum, then current can't be added,
+    so we track two states:
+    1. Sum without current number
+    2. Sum with current number
 */
+// TC: O(N)
+int Solution::adjacent(vector<vector<int> > &arr) {
+    int with_curr = 0, without_curr = 0,
+        with_curr_prev = 0, without_curr_prev = 0;
+        
+    for(int i = 0; i < arr[0].size(); i++) {
+        // max sum if the current number is added
+        with_curr = max(arr[0][i], arr[1][i]) + without_curr_prev;
+        // max sum if the current number is not added,
+        // it can either be the max sum till the last element when it
+        // was added or not added
+        without_curr = max(without_curr, with_curr_prev);
+        // update the previous state values    
+        with_curr_prev = with_curr, without_curr_prev = without_curr;
+    }
+    return max(with_curr, without_curr);
+}
+
 
 /*
     Each time we can either select current element or leave it.
