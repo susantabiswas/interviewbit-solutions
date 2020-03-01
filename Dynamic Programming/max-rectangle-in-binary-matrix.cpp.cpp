@@ -32,6 +32,8 @@ int largestHistogramRectangle(vector<int>& heights) {
 }
 
 int Solution::maximalRectangle(vector<vector<int> > &grid) {
+    if(grid.empty())
+        return 0;
     int max_area = 0;
     const int M = grid.size(), N = grid[0].size();
     vector<int> heights(N, 0);
