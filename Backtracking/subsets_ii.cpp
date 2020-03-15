@@ -1,6 +1,9 @@
 /*
     generate all unique subsets
     https://www.interviewbit.com/problems/subsets-ii/
+    
+    When there are duplicates, then the problem is we can have single element subsets of same thing.
+    Eg: [2, 2, 2] , tthen [2], [2] will be created when 2nd and 3rd elements are the only elements in subset.
 */
 
 // generates subsets
