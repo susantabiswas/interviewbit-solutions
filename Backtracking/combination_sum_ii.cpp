@@ -3,6 +3,44 @@
     https://www.interviewbit.com/problems/combination-sum-ii/
 */
 
+// SOLUTION 1
+void getSumCmbs(int curr, vector<int>& arr, int sum,
+                vector<int> partial,
+                vector<vector<int>>& result,
+                set<vector<int>>& s) {
+    // base case
+    if(sum <= 0) {
+        // add the cmb if the sum equals target
+        if(sum == 0 && s.find(partial) == s.end()) {
+            s.emplace(partial);
+            result.emplace_back(move(partial));
+        }
+        return;
+    }
+    
+    for(int i = curr; i < arr.size(); i++) {
+        // since each number can only be used once.
+        partial.emplace_back(arr[i]);
+        getSumCmbs(i + 1, arr, sum - arr[i], partial, result, s);    
+        partial.pop_back();
+    }
+}
+
+vector<vector<int> > Solution::combinationSum(vector<int> &arr, int t) {
+    vector<vector<int>> result;
+    vector<int> partial;
+    set<vector<int>> s;
+    // vector of unique numbers
+    vector<int> unique_nums;
+    
+    sort(arr.begin(), arr.end());
+         
+    getSumCmbs(0, arr, t, partial, result, s);        
+    return result;
+}
+
+
+// SOLUTION 2
 void findCombinations(vector<int>& arr, int k, vector<int> cmb, int start,
                     vector<vector<int>>& result, set<vector<int>>& cmb_set) {
     if(start > arr.size())
