@@ -3,36 +3,36 @@
     https://www.interviewbit.com/problems/subsets-ii/
 */
 
-void findSubsets(vector<int>& arr, int curr, vector<int> partial,
-                        vector<vector<int>>& result, set<vector<int>>& s) {
-    if(curr > arr.size())
-        return;
-    // check if subset has already been added or not
+// generates subsets
+void generateSubsets(int curr, vector<int>& arr, 
+                    vector<int> partial, set<vector<int>>& unique_sets,
+                    vector<vector<int>>& result) {
+    // all the array elements have been traversed and the current set is unique
     if(curr == arr.size()) {
-       // sort(partial.begin(), partial.end());
-        if(s.find(partial) == s.end()) {
-            s.emplace(partial);
+        if (unique_sets.find(partial) == unique_sets.end()) {
+            // add to set
             result.emplace_back(partial);
+            unique_sets.emplace(move(partial));
         }
         return;
-    }
-    // each time we can either include or exclude the current element
-    findSubsets(arr, curr + 1, partial, result, s);
+    }          
     
+    // exclude the current number
+    generateSubsets(curr + 1, arr, partial, unique_sets, result);
+    // add the current number
     partial.emplace_back(arr[curr]);
-    findSubsets(arr, curr + 1, partial, result, s);
-    return;
+    generateSubsets(curr + 1, arr, partial, unique_sets, result);
 }
-
+       
+// TC: O(2^N * N), O(N) for copying the vector to result             
 vector<vector<int> > Solution::subsetsWithDup(vector<int> &arr) {
-    int curr = 0;
-    sort(arr.begin(), arr.end());
- 
-    vector<int> partial;    
     vector<vector<int>> result;
-    set<vector<int>> s;
+    // sort the array so that the duplicate comb can be avoided
+    sort(arr.begin(), arr.end());
+    vector<int> partial;
+    set<vector<int>> unique_sets;
     
-    findSubsets(arr, curr, partial, result, s);
+    generateSubsets(0, arr, partial, unique_sets, result);
     sort(result.begin(), result.end());
     return result;
 }
