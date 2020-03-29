@@ -5,6 +5,27 @@
     https://www.interviewbit.com/problems/merge-two-sorted-lists-ii/
  */
 
+// Type 1
+// TC: O(m + n)
+void Solution::merge(vector<int> &A, vector<int> &B) {
+    const int M = A.size(), N = B.size();
+    // Now the initial values of A is in the begining, so 
+    // start merging from back side
+    int a = M - 1, b = N - 1; 
+    // expand the size of A
+    A.resize(M + N);
+    int write_idx = A.size() - 1;
+    
+    while(a >= 0 && b >= 0) {
+        A[write_idx--] = A[a] > B[b] ? A[a--] : B[b--];
+    }
+    while(a >= 0)
+        A[write_idx--] = A[a--];
+    while(b >= 0)
+        A[write_idx--] = B[b--];
+}
+
+// Type 2
 void Solution::merge(vector<int> &a, vector<int> &b) {
     vector<int> result;
     
