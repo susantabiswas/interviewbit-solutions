@@ -40,7 +40,16 @@ int Solution::diffPossible(vector<int> &nums, int target) {
 // TC: O(N), SC: O(N)
 /*int Solution::diffPossible(vector<int> &nums, int target) {
     unordered_set<int> s;
+    // Since the array is sorted, we can always look for the smaller number which
+    // would have already been added to the hash table by the time we reach the bigger number.
+    
+    // If the numbers were not sorted, we can search for the following:
+    // a - b = target
+    // when we have 'a', search for target + b
+    // when we have 'b', search for -(target - a) 
+        
     for(const int& num: nums) {
+        // when we have 'a', search for target + b
         if(s.find(-1 * (target - num)) != s.end())
             return 1;
         s.emplace(num);
