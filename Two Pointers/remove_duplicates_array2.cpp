@@ -2,8 +2,6 @@
 https://www.interviewbit.com/problems/remove-duplicates-from-sorted-array-ii/ 
 */
 /*
-    abstractive text summarization
-    
     TC: O(N), SC; O(1)
 */
 int Solution::removeDuplicates(vector<int> &arr) {
