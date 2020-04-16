@@ -30,3 +30,33 @@ int Solution::maxArr(vector<int> &arr) {
     });
     return max_val;
 }
+
+// Solution: Other variant
+int Solution::maxArr(vector<int> &arr) {
+    vector<int> max_term(4, INT_MIN);
+    vector<int> min_term(4, INT_MAX);
+    int max_diff = INT_MIN;
+    
+    for(int i = 0; i < arr.size(); i++) {
+        // update the max terms
+        max_term[0] = max(max_term[0], arr[i] + i);
+        max_term[1] = max(max_term[1], arr[i] - i);
+        max_term[2] = max(max_term[2], -arr[i] + i);
+        max_term[3] = max(max_term[3], -arr[i] - i);
+        
+        // update the min terms
+        min_term[0] = min(min_term[0], arr[i] + i);
+        min_term[1] = min(min_term[1], arr[i] - i);
+        min_term[2] = min(min_term[2], -arr[i] + i);
+        min_term[3] = min(min_term[3], -arr[i] - i);
+    }
+    
+    max_diff = max({
+                    max_term[0] - min_term[0],
+                    max_term[1] - min_term[1],
+                    max_term[2] - min_term[2],
+                    max_term[3] - min_term[3]
+                });
+    return max_diff;
+}
+
