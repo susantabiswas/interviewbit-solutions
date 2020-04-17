@@ -5,6 +5,30 @@
     On flipping 'i' all elements on right of it are flipped
 */
 
+/*
+    We keep track of no. of switches made and 
+    for each bulb, we check what the status of the bulb
+    after all those switches, if it is OFF again switch is applied and
+    continue.
+    TC: O(1)
+*/
+int Solution::bulbs(vector<int> &arr) {
+    // for keeping track of nu of switch flips used
+    int flips = 0;
+    
+    for(int i = 0; i < arr.size(); i++) {
+        // check what the final state for current 
+        // position after applying the flips till now
+        // when odd no of flips are made, the state changes
+        bool flipped = flips % 2 == 0 ? false : true;
+        int curr_state = flipped ? !arr[i] : arr[i];
+        // if the state after flipping is OFF, again switch
+        if(curr_state == 0)
+            ++flips;
+    }
+    return flips;
+}
+
 
 // TC: O(n)
 /*
