@@ -3,8 +3,52 @@
     https://www.interviewbit.com/problems/max-non-negative-subarray/?ref=similar_problems
     TC: O(n)
 */
+// Solution1
+/*
+    https://www.interviewbit.com/problems/max-non-negative-subarray/
 
-// Solution1 
+    Using two pointers
+    TC: O(N), SC: O(1)
+*/
+vector<int> Solution::maxset(vector<int> &nums) {
+    bool negative = false;
+    long long max_sum = 0, max_len = 0;
+    int start = -1, end = -1;
+    int i = 0, j = 0;
+    long long curr_sum = 0;
+    
+    while(i < nums.size()) {
+        // expand the window
+        if(!negative) {
+            curr_sum += nums[i];
+            negative = nums[i] < 0 ? true : false;
+            ++i;
+        }
+           
+        // if a negative number was encountered, make the start index the
+        // number after negative as we have already updated processed everything before 
+        // negative, incase the number ending before negative was the last term of max
+        // sum, that must have got updated in last iteration
+        if(negative) {
+            negative = false;
+            j = i;
+            curr_sum = 0;
+        }
+        if(curr_sum >= max_sum) { 
+            if(curr_sum > max_sum)
+                start = j, end = i, max_sum = curr_sum, max_len = (i - j);
+            // if curr sum is equal to max sum, then update max if the curr length is more
+            else if((i - j) > max_len)
+                start = j, end = i, max_len = (i - j);
+        }
+    }
+    
+    vector<int> result(nums.begin() + start, nums.begin() + end);
+    return result;
+}
+
+
+// Solution2 
 vector<int> Solution::maxset(vector<int> &arr) {
     long long max_sum = -1;
     long long curr = INT_MIN;
@@ -42,7 +86,7 @@ vector<int> Solution::maxset(vector<int> &arr) {
 }
 
 
-// Solution 2
+// Solution 3
 vector<int> Solution::maxset(vector<int> &arr) {
     long long max_sum = 0, curr_sum = 0;
     vector<int> max_subarray;
