@@ -3,6 +3,37 @@
     https://www.interviewbit.com/problems/rotated-sorted-array-search/
 */
 
+// Solution 1
+int Solution::search(const vector<int> &arr, int target) {
+    int left = 0, right = arr.size() - 1;
+    
+    while(left <= right) {
+        int mid = left + (right - left) / 2;
+        
+        if(arr[mid] == target)
+            return mid;
+        // check if mid is in bigger subarray
+        if(arr[mid] >= arr[left]) {
+            // check if target lies in left or right
+            if(target >= arr[left] && target < arr[mid])
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        // mid is in smaller subarray
+        else {
+            // check if target lies in left or right
+            if(target <= arr[right] && target > arr[mid])
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+    }
+    return -1;
+}
+
+
+// solution 2
 int binSearch(const vector<int>& arr, int l, int h, int k) {
     while(l <= h) {
         int mid = l + (h - l) / 2;
