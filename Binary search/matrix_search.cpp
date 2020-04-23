@@ -26,3 +26,25 @@ int Solution::searchMatrix(vector<vector<int> > &arr, int val) {
     
     return 0;
 }
+
+
+// Solution 2
+// Using binary search
+// TC: O(long(MN))
+int matrixBSearch(vector<vector<int> > &grid, int target) {
+    const int M = grid.size(), N = grid[0].size();
+    int low = 0, high = M * N - 1;
+    
+    while(low <= high) {
+        int mid = low + (high - low) / 2;
+        int r = mid / N, c = mid % N;
+        
+        if(grid[r][c] == target)
+            return 1;
+        else if(grid[r][c] < target)
+            ++low;
+        else
+            --high;
+    }
+    return 0;
+}
