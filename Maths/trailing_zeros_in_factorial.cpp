@@ -1,6 +1,22 @@
 /*
   https://www.interviewbit.com/problems/trailing-zeros-in-factorial/
 */
+// TC: O(log(base5)(n))
+int Solution::trailingZeroes(int n) {
+    int n_five = 0;
+    int p = 1, curr_power = 5;
+    // find how many 5s are there,
+    // for numbers having more 5s like 125,
+    // dividing by 5 gives only accounts for 1 five,
+    // so we divide by its increasing powers to account for the 
+    // remaining.
+    while(curr_power <= n) {
+        n_five += n / curr_power;
+        ++p;
+        curr_power = pow(5, p);
+    }
+    return n_five;
+}
 
 /*
     Each zero is contibuted by 10, which is 5X2. So we need to find no. of 5X2 pairs.
