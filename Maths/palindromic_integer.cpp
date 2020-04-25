@@ -4,6 +4,21 @@
     TC: O(d), d: no. of digits
 */
 
+// Sol 1
+int Solution::isPalindrome(int num) {
+    if(num < 0)
+        return 0;
+    int lsb = 1, msb = pow(10, (int)log10(num));
+    while(lsb < msb) {
+        if((num / msb)%10 != (num / lsb)%10)
+            return 0;
+        msb /= 10;
+        lsb *= 10;
+    }
+    return 1;
+}
+
+// Sol 2
 int Solution::isPalindrome(int num) {
     // just reverse the number and check if they match
     long long rev_num = 0;
