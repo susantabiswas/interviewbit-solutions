@@ -10,7 +10,11 @@
 
      We can encode both the information:
      A[i] = A[i] + (A[A[i]] % n) * n
-
+    
+     Since each number is [0, N-1], so %N gives the number and if we want to add info
+     about another number, we can add other_num*N, so on  dividing with N, we will get other num.
+     encoded: Multiple_of_N(new_num * N) + remainder(orig_num_at_curr_pos)
+     
      old value: A[i] % n : we have added a term to original which is a multiple of n, so
                 on doing modulo with n, that term becomes 0 and the original term is left
      new value : A[i] / n
