@@ -2,6 +2,33 @@
     https://www.interviewbit.com/problems/distribute-candy/
 */
 
+// Solution 1
+int Solution::candy(vector<int> &ratings) {
+    if(ratings.empty())
+        return 0;
+        
+    vector<int> candies(ratings.size(), 1);
+    // decide the candies based on left side rating
+    for(int i = 1; i < ratings.size(); i++)
+        if(ratings[i] > ratings[i-1])
+            candies[i] = candies[i-1] + 1;
+    
+    int total = candies.back();
+    // decide the candies based on right side ratings as well
+    for(int i = (int)ratings.size()-2; i >= 0; i--) {
+        if(ratings[i] > ratings[i+1])
+            // we give the current candies more than the right counterpart
+            // only when it is assigned lesser candies, as the candies
+            // already assigned are based on left counterpart
+            candies[i] = max(candies[i], candies[i+1] + 1);
+    
+        total += candies[i];
+    }
+    return total;
+}
+
+
+// Solution 2
 int Solution::candy(vector<int> &rating) {
     vector<int> candies(rating.size(), 1);
     // forward pass
