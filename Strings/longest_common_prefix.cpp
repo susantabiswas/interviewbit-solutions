@@ -1,3 +1,86 @@
+struct Trie {
+    unordered_map<char, Trie*> leaves;
+    bool is_string = false;
+};
+
+// inserts a node in Trie
+bool insert(Trie* root, string s) {
+    // start inserting the chars
+    for(char& c : s) {
+        // node not found
+        if(root->leaves.count(c) == 0)
+            root->leaves[c] = new Trie;
+        root = root->leaves[c];
+    }
+    // make the string end
+    if(!root->is_string)
+        return root->is_string = true;
+    // word was already inserted
+    else
+        return false;
+}
+
+// Solution 1: Using Trie
+// TC: O(nL), n: len of arr, L: longest word length
+// TC: O(nL)
+string lcpTrie(vector<string>& arr) {
+    // create Trie with the words
+    Trie* root = new Trie;
+    int min_len = INT_MAX;
+    string min_word;
+    
+    for(string& word: arr) {
+        insert(root, word);
+        
+        if(word.size() < min_len) {
+            min_len = word.size();
+            min_word = word;
+        }
+    }
+        
+    // check for the first node, which has more than 1 leaf
+    Trie* t = root;
+    string common_prefix;
+    while(!t->leaves.empty() && t->leaves.size() == 1) {
+        common_prefix += (t->leaves.begin())->first;
+        t = (t->leaves.begin())->second;
+    }
+    return common_prefix.size() > min_len ? min_word : common_prefix;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+// Solution 2: Comparing the strings
+// find the prefix for the first two words, then compare 
+// the next word with the prefix found so far, shorten the
+// prefix if required, do this till the last word of array.
+// return whatever prefix is left
+
+// TC: O(N)
+string lcpString(vector<string>& arr) {
+    string prefix = arr[0];
+    
+    for(int i = 1; i < arr.size(); i++) {
+        int j = 0, k = 0;
+        while(j < prefix.size() && k < arr[i].size()) {
+            if(prefix[j] != arr[i][k])
+                break;
+            ++j, ++k;
+        }
+        prefix = prefix.substr(0, j);
+    }
+    return prefix;
+}
+
+string Solution::longestCommonPrefix(vector<string> &arr) {
+    // Using Trie solution
+    // return lcpTrie(arr);
+    return lcpString(arr);
+}
+
+
+
+
 /*
     Longest common prefix
     https://www.interviewbit.com/problems/longest-common-prefix/
