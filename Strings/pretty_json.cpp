@@ -4,6 +4,54 @@
     TC: O(n)
 */
 
+// Solution 1
+vector<string> Solution::prettyJSON(string s) {
+    int indent = 0;
+    vector<string> result;
+    int i = 0;
+    
+    while(i < s.size()) {
+        string line;
+        // add the indentation
+        for(int j = 0; j < indent; j++)
+            line += '\t';
+        // if it is a left bracket
+        if(s[i] == '{' || s[i] == '[') {
+            ++indent;
+            line += s[i++];
+        }
+        // closing bracket
+        else if(s[i] == '}' || s[i] == ']') {
+            --indent;
+            // since this is a closing bracket, 1 indentation
+            // needs to be removed
+            line.back() = s[i++];
+            // if the next char is ',', then it needs to be in same line
+            if(i < s.size() && s[i] == ',')
+            line += s[i++];
+        }
+        // other chars, put them on the same line till ',', ], }, {, [
+        else {
+            while(i < s.size() && s[i] != ',' 
+                && s[i] != '[' && s[i] != '{'
+                && s[i] != ']' && s[i] != '}') {
+                
+                line += s[i++];        
+            }
+            // if the last char is one of the brackets dont put in the 
+            // same line, else put it in the same line
+            if(s[i] == ',')
+                line += s[i++];
+        }
+        // add the line
+        result.emplace_back(line);
+    }
+    
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////
+// Solution 2
 string writePrettyLine(char c, int tab_c) {//cout<<"tab:"<<tab_c<<endl;
     string result;
     // add indentation tabs
