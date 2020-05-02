@@ -5,6 +5,35 @@
     TC: O(n)
 */
 
+// Solution 1
+string Solution::solve(string s) {
+    // create a string removing extra space
+    string rev_str;
+    
+    // add the individual reversed words
+    int i = 0, j = 0;
+    while(i < s.size()) {
+        // skip any space 
+        while(s[i] == ' ')
+            ++i;
+        // add the current word
+        string word;
+        while(i < s.size() && s[i] != ' ') {
+            word += s[i];
+            ++i;
+        }
+        /// reverse the current word
+        reverse(word.begin(), word.end());
+        // add the word to the sentence, add space to connect words
+        rev_str = rev_str + (rev_str.size() == 0 ? word : " " + word);
+    }
+    // reverse the sentence
+    reverse(rev_str.begin(), rev_str.end());
+    return rev_str;
+}
+
+
+// Solution 2
 void reverseString(string& str, int s, int e) {
     // reverse chars in [s:e] 
     while(s < e) {
