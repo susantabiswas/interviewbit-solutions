@@ -3,6 +3,46 @@
   https://www.interviewbit.com/problems/minimum-characters-required-to-make-a-string-palindromic/
 */
 
+// Solution 1
+// Idea is to find the closest suffix that matches the prefix, since
+// we can insert the unmathcing chars of back side in front, so we find the 
+// first suffix from front that matches the prefix. To do that we start
+// we start the KMP LPS computation from backside.
+// abfhba
+// 100021 => here ba matches the prefix but the chars in between are diff so that
+// is the reason why we look for the first suffix from left to ensure that all the chars
+// before that match the perfix, so here we select suffix as "a" for prefix "a",
+// hence 6 - 1 : 5 is the ans
+
+// TC: O(N)
+vector<int> longestMatchingPrefix(string& s) {
+    vector<int> lps(s.size(), 0);
+    int i = s.size()-1, j = 0;
+    
+    while(i >= 0) {
+        if(s[i] == s[j]) {
+            lps[i] = j + 1;
+            --i, ++j;
+        }
+        else {
+            if(j != 0)
+                j = lps[j-1];
+            else
+                --i;
+        }
+    }
+    
+    return lps;
+}
+
+int Solution::solve(string s) {
+    auto lps = longestMatchingPrefix(s);
+    return s.size() - lps.front();
+}
+
+/////////////////////////////////////////////////////////
+
+// Solution 2
 /*
     We just need to find the length of the longest palindrome starting 
     index 0, since the chars will be inserted in the beginning, so whatever
