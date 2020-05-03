@@ -3,6 +3,87 @@
     https://www.interviewbit.com/problems/valid-number/
 */
 
+// Solution 1
+int Solution::isNumber(const string str) {
+    // create new string without any space
+    // remove extra white space from beginning and end
+    // stupid platform bug
+    string s;
+    for(int i = 0; i < str.size(); i++)
+        if(str[i] != ' ')
+            s += str[i];
+            
+    if(s.empty())
+        return false;
+    
+    int i = 0;
+       
+    // check for sign, it is allowed only at 0th pos
+    // if there is only - in string, false
+    if(s[0] == '-' || s[0] == '+') {
+        if(s.size() == 1)
+            return false;
+        ++i;
+    }
+    
+    // skip all preceeding 0s/numbers
+    while(i < s.size()) {
+        // if not numeric, e or .
+        if(!isdigit(s[i]) && s[i] != '.' && s[i] != 'e')
+            return false;
+        // fractional part will start after this
+        if(s[i] == '.' || s[i] == 'e') {
+            ++i;
+            break;
+        }
+        ++i;
+    }
+    // if the last char was '.', check the fractional part
+    if(s[i-1] == '.') {
+        // check if there is a digit next
+        if(i == s.size())
+            return false;
+        
+        // next char after . should be a digit
+        if(i < s.size() && !isdigit(s[i]))
+            return false;
+    
+        ++i;
+        // fractional part exists, check the fractional part
+        // go till the string finishes or e is reached
+        while(i < s.size()) {
+            if(i < s.size() && !isdigit(s[i]) && s[i] != 'e')
+                return false;
+            if(s[i] == 'e') {
+                ++i;
+                break;
+            }
+            ++i;
+        }
+    }
+    // if exponent part has reached
+    if(s[i-1] == 'e') {
+        // check the exponent part
+        // after e, only +,-, digit is allowed excluding 0
+        if(i == s.size() || s[i] == '0')
+            return false;
+        // first char after e is invalid
+        if(s[i] != '+' && s[i] != '-' && !isdigit(s[i]))
+            return false;
+        ++i;
+        // only integers are allowed after this point
+        while(i < s.size()) {
+            if(i < s.size() && !isdigit(s[i]))
+                return false;
+            ++i;
+        }
+    }
+
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////
+// Solution 2
 int Solution::isNumber(const string str) {
     
     // if no digits
