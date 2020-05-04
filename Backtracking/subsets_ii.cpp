@@ -6,6 +6,37 @@
     Eg: [2, 2, 2] , tthen [2], [2] will be created when 2nd and 3rd elements are the only elements in subset.
 */
 
+/// SOLUTION 1
+void generateUniqueSubsets(int curr, vector<int>& arr,
+                    vector<int> partial, vector<vector<int>>& result) {
+    //add the subset
+    result.emplace_back(partial);
+    
+    if(curr < arr.size()) {
+        for(int i = curr; i < arr.size(); ) {
+            partial.emplace_back(arr[i]);
+            generateUniqueSubsets(i+1, arr, partial, result);
+            partial.pop_back();
+            
+            ++i;
+            // skip the duplicates
+            while(i < arr.size() && arr[i] == arr[i-1])
+                ++i;
+        }
+    }
+}
+
+vector<vector<int> > Solution::subsetsWithDup(vector<int> &arr) {
+    // sort the numbers
+    sort(begin(arr), end(arr));
+    vector<vector<int>> result;
+    
+    generateUniqueSubsets(0, arr, vector<int>{}, result);
+    return result;
+}
+
+///////////////////////////////////////////////////////////////////
+// SOLUTION 2
 // generates subsets
 void generateSubsets(int curr, vector<int>& arr, 
                     vector<int> partial, set<vector<int>>& unique_sets,
