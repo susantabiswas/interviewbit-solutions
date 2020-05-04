@@ -15,6 +15,33 @@
     [1] is creatd before [2]
 */
 
+// SOLUTION 1
+void generateCombination(int start, vector<int> partial,
+                    int k, int n, vector<vector<int>>& result) {
+    // if there are k numbers
+    if(partial.size() == k) 
+        result.emplace_back(partial);
+        
+    if(start <= n && partial.size() < k) {
+        // add 1 element at a time with the current subset
+        for(int i = start; i <= n; i++) {
+            partial.emplace_back(i);
+            generateCombination(i + 1, partial, k, n, result);
+            partial.pop_back();
+        }
+    }
+}
+
+vector<vector<int> > Solution::combine(int n, int k) {
+    vector<vector<int>> result;
+    
+    generateCombination(1, vector<int>{}, k, n, result);
+    return  result;
+}
+
+
+////////////////////////////////////////////////////////////////
+// SOLUTION 2
 void generateKCmbs(int curr, int n, int k,
                     vector<int> partial,
                     vector<vector<int>>& result) {
