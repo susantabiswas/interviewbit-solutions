@@ -4,6 +4,38 @@
 */
 
 // SOLUTION 1
+// WITHOUT SET
+void targetCombinations(int curr, vector<int>& arr, int target,
+                        vector<int> partial, vector<vector<int>>& result ) {
+    // if target is reached
+    if(target == 0) {
+        if(target == 0) {
+            result.emplace_back(move(partial));
+        }
+        return;    
+    }
+    
+    for(int i = curr; i < arr.size(); ) {
+        partial.emplace_back(arr[i]);
+        targetCombinations(i+1, arr, target - arr[i], partial, result);
+        partial.pop_back();
+        
+        ++i;
+        while(i < arr.size() && arr[i] == arr[i-1])
+            ++i;
+    }
+}
+
+vector<vector<int> > Solution::combinationSum(vector<int> &arr, int target) {
+    vector<vector<int>> result;
+    sort(begin(arr), end(arr));
+    
+    targetCombinations(0, arr, target, vector<int>{}, result);
+    return result;
+}
+
+//////////////////////////////////////////////////////
+// SOLUTION 2
 void getSumCmbs(int curr, vector<int>& arr, int sum,
                 vector<int> partial,
                 vector<vector<int>>& result,
@@ -40,7 +72,7 @@ vector<vector<int> > Solution::combinationSum(vector<int> &arr, int t) {
 }
 
 
-// SOLUTION 2
+// SOLUTION 3
 void findCombinations(vector<int>& arr, int k, vector<int> cmb, int start,
                     vector<vector<int>>& result, set<vector<int>>& cmb_set) {
     if(start > arr.size())
