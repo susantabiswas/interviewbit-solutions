@@ -3,6 +3,8 @@
   https://www.interviewbit.com/problems/sudoku/
 */
 
+
+
 // finds unassigned position
 bool findVacantPosition(vector<vector<char>>& mat, int& row, int& col) {
     for(int i = 0; i < mat.size(); i++) {
@@ -14,31 +16,34 @@ bool findVacantPosition(vector<vector<char>>& mat, int& row, int& col) {
             }
         }
     }
+
     return false;
 }
 
 // checks if the current assignment is valid
-bool isSafe(vector<vector<char>>& mat, int row, int col) {
-    char curr_digit = mat[row][col];
+bool isSafe(vector<vector<char>>& mat, int row, int col, char digit) {
     // check row
-    for(int i = 0; i < mat.size(); i++)
-        if(mat[i][col] == curr_digit)
-            return false;
+    for(int i = 0; i < mat.size(); i++) 
+        if(mat[i][col] == digit)  {
+           return false;
+        }
     // check col
     for(int i = 0; i < mat[0].size(); i++)
-        if(mat[row][i] == curr_digit)
+        if(mat[row][i] == digit) {
             return false;
-            
+        }
+
     // check grid
     int grid_row_start = 3 * (row / 3);
     int grid_col_start = 3 * (col / 3);
     for(int i = grid_row_start; i < grid_row_start + 3; i++) {
         for(int j = grid_col_start; j < grid_col_start + 3; j++) {
-            if(mat[i][j] == curr_digit)
+            if(mat[i][j] == digit) {
                 return false;
+            }
         }
     }
-    
+
     return true;
 }
 
@@ -46,21 +51,26 @@ bool fillSudoku(vector<vector<char>>& mat, int row, int col) {
     // first check if the sudoku is filled or not
     if(findVacantPosition(mat, row, col) == false)
         return true;
-        
     // now try filling the vacant position with 1-9 
     for(int i = 1; i <= 9; i++) {
-        mat[row][col] = i + '0';
         // check if the current assignment is valid or not
-        if(isSafe(mat, row, col))
+        if(isSafe(mat, row, col, i + '0')) {
+            mat[row][col] = i + '0';
+
             if(fillSudoku(mat, row, col))
                 return true;
-        mat[row][col] = '.';
+
+            mat[row][col] = '.';
+        }
+
     }
-    
+
     return false;
 }
 
 void Solution::solveSudoku(vector<vector<char> > &mat) {
      int row = 0, col = 0;
+
      fillSudoku(mat, row, col);
 }
+
