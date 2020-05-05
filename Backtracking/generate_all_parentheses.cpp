@@ -3,6 +3,36 @@
   https://www.interviewbit.com/problems/generate-all-parentheses-ii/
 */
 
+// SOLUTION 1
+void generateParenthesisCmb(int left_remaining, int right_remaining, 
+                        string partial, vector<string>& result) {
+    // all the brackets used
+    if(right_remaining + left_remaining == 0) {
+        result.emplace_back(partial);
+        return;
+    }
+    // use ( if there are any remaining
+    if(left_remaining)
+    generateParenthesisCmb(left_remaining-1, right_remaining, 
+                        partial + '(', result);
+    
+    // use ) if more number of ( have been used
+    if(right_remaining > left_remaining)
+        generateParenthesisCmb(left_remaining, right_remaining-1, 
+                        partial + ')', result);
+}
+
+vector<string> Solution::generateParenthesis(int n) {
+    vector<string> result;
+    int left_remaining = n, right_remaining = n;
+    
+    generateParenthesisCmb(left_remaining, right_remaining, 
+                        "", result);
+    return result;
+}
+
+//////////////////////////////////////////////////////////
+// SOLUTION 2
 void generateAllParenthesis(int n, int left_count, int right_count, int curr, string partial,
                             vector<string>& result, set<string>& s) {
     // if 2*n brackets have been placed
