@@ -69,9 +69,6 @@ bool bfsCycle(vector<vector<int>>& g) {
         
         // decrement the indegree of neighbours
         for(int i = 0; i < g[curr].size(); i++) {
-            // if already visited
-            if(visited.find(g[curr][i]) != visited.end())
-                return true;
             --indegree[g[curr][i]];
             if(indegree[g[curr][i]] == 0) 
                 q.emplace(g[curr][i]), visited.insert(g[curr][i]);
