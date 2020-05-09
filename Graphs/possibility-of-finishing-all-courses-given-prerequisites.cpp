@@ -2,6 +2,48 @@
     https://www.interviewbit.com/problems/possibility-of-finishing-all-courses-given-prerequisites/
 */
 
+// SOLUTION 1
+bool topologicalSort(int curr, vector<vector<int>>& g,
+                    vector<bool>& visited, vector<bool>& rec_stack) {
+    // if the same element is in rec stack
+    if(rec_stack[curr])
+        return false;
+        
+    rec_stack[curr] = true;
+    
+    for(int i = 0; i < g[curr].size(); i++) 
+        if(!visited[g[curr][i]])
+            if(!topologicalSort(g[curr][i], g, visited, rec_stack))
+                return false;
+    // make current visited
+    visited[curr] = true;
+    
+    // remove curr from rec stack
+    rec_stack[curr] = false;
+    return true;
+}
+
+int Solution::solve(int n_vertices, vector<int> &src, vector<int> &dst) {
+    // create a graph
+    vector<vector<int>> g(n_vertices);
+    // each prerequisite pair is like a directed edge
+    for(int i = 0; i < src.size(); i++)
+        g[src[i] - 1].emplace_back(dst[i] - 1);
+
+    // now check the graph reachibility
+    vector<bool> visited(n_vertices, false), rec_stack(n_vertices, false);
+    
+    for(int i = 0; i < n_vertices; i++) {
+        if(!visited[i])
+            // topological sort of graph
+            if(!topologicalSort(0, g, visited, rec_stack))
+                return false;
+    }
+    return true;
+}
+
+/////////////////////////////////////////////////////
+// SOLTUION 2
 // Checks if cycle is present using BFS
 bool bfsCycle(vector<vector<int>>& g) {
     const int N = g.size();
