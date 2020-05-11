@@ -35,6 +35,44 @@ int greedyFibsum(vector<long long>& fibonacci, int N) {
     return min_fib;    
 }
 
+// Using BFs, partially accepted
+int bfs(int n, vector<int>& fib) {
+    queue<int> q;
+    unordered_set<int> visited;
+    int level = 1;
+    // add the starting nodes, starting nodes are all the fibonacci numbers
+    for(int i = 1; i < fib.size(); i++) {
+        q.emplace(fib[i]);
+        // mark them visited
+        visited.emplace(fib[i]);
+    }
+    int n_level = q.size();
+        
+    while(!q.empty()) {
+        auto curr = q.front();
+        q.pop();
+        --n_level;
+        
+        // if the sum has reached the target
+        if(curr == n)
+            break;
+        
+        for(int i = 1; i < fib.size(); i++)
+            if(curr + fib[i] <= n && !visited.count(curr + fib[i])) {
+                visited.emplace(curr + fib[i]);
+                q.emplace(curr + fib[i]);
+            }
+        
+        // level ended
+        if(n_level == 0) {
+            ++level;
+            n_level = q.size();
+        }
+    }
+    
+    return level;
+}
+
 int Solution::fibsum(int N) {
     if(N <= 1)
         return N;
@@ -44,7 +82,8 @@ int Solution::fibsum(int N) {
     // generate the fibonacci numbers till it is smaller than N
     for(int i = 2; fibonacci[i-1] < N; i++)
         fibonacci.emplace_back(fibonacci[i-1] + fibonacci[i-2]);
-       
+     
+    // return bfs(N, fibonacci);
     // return dpFibsum(fibonacci, N);
     return greedyFibsum(fibonacci, N);
 }
