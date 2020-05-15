@@ -4,27 +4,24 @@
 */
 
 ListNode* Solution::detectCycle(ListNode* head) {
-    // We will use Floyd's algorithm for this
-    ListNode* slow = head, *fast = head;
-    
+    ListNode *slow = head, *fast = head;
     while(fast && fast->next) {
         slow = slow->next;
-        fast = fast->next->next;
+        fast = (fast->next)->next;
         
-        // if the two pointers meet, means cycle is present
-        if(slow == fast) {
+        // if the two nodes meet
+        if(slow == fast)
             break;
-        }
     }
     
-    // cycle is present, find the cycle start
-    if(fast == slow) {
+    // cycle is present
+    if(slow == fast) {
         slow = head;
         while(slow != fast) {
             slow = slow->next;
             fast = fast->next;
         }
     }
-    else
-        return nullptr;
+    
+    return slow == fast ? slow : nullptr;
 }
