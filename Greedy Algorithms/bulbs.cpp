@@ -10,7 +10,7 @@
     for each bulb, we check what the status of the bulb
     after all those switches, if it is OFF again switch is applied and
     continue.
-    TC: O(1)
+    TC: O(N)
 */
 int Solution::bulbs(vector<int> &arr) {
     // for keeping track of nu of switch flips used
