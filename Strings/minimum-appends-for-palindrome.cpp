@@ -1,6 +1,4 @@
 /*
-    https://www.interviewbit.com/problems/minimum-appends-for-palindrome/
-    
     Since the chars can be inserted at back only, we need to find the
     length of the longest palindrome which ends at the last char. All the chars
     before the starting of that palindrome will be inserted at the back.
@@ -13,7 +11,7 @@
 */
 int Solution::solve(string s) {
     const int N = s.size();
-    // palindromic_suffix(i): length of palindrome which ends at the 
+    // palindromic_suffix(i): no. of matching chars from backside till  
     // ith index
     vector<int> palindromic_suffix(N, 0);
     int i = 0, j = N - 1;
